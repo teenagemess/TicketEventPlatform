@@ -4,7 +4,11 @@ Ticket Event Platform
 <h2>Project Description</h2>
 Ticket Event Platform adalah sebuah aplikasi platform yang menyediakan pencarian serta pemembeli tiket untuk berbagai jenis acara hiburan, mulai dari konser musik, festival seni, pertunjukan teater. Tidak hanya itu, pengguna juga memiliki kemampuan untuk membuat event sendiri melalui fitur khusus yang disediakan oleh aplikasi ini yang memungkinkan user untuk menentukan detail seperti tanggal, lokasi, jenis tiket, dan informasi lainnya. Aplikasi ini menggunakan lokal database ataupun firebase (masih dalam perencanaan) untuk penyimpanan informasi terkait.
 <h2>Use Case Diagrams</h2>
-![Screenshot 2024-01-07 152420](https://github.com/teenagemess/TicketEventPlatform/assets/93027449/a05d25d0-143d-4faa-9266-1603ba6f6628)
+
+![Screenshot 2024-01-07 152420](https://github.com/teenagemess/TicketEventPlatform/assets/93027449/820ea403-e2eb-4ff9-89c4-7eaf9722c73d)
+
+
+
 
 <li> <b>Search Product :</b> User dapat mencari produk/ticket yang diinginkannya
 <ul><b>1. View Product Detais : </b> User dapat melihat detail dari produk/tiket yang dipilihnya </ul>
