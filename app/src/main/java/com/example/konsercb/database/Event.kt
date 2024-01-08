@@ -1,0 +1,19 @@
+package com.example.konsercb.database
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.konsercb.model.TicketCategory
+
+@Entity(tableName = "tblEvent")
+data class Event(
+    @PrimaryKey(autoGenerate = true)
+    val id : Int = 0,
+    val namaevent : String,
+    val alamatevent : String,
+    val penyelenggaraevent : String,
+    val deskripsievent : String,
+    val waktuevent : String,
+    val tanggalevent :  String,
+    val category : String,
+    val harga : String
+)
