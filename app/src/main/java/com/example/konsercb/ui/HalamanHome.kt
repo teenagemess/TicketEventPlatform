@@ -83,7 +83,7 @@ fun HomeScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(android.graphics.Color.parseColor("#201c94")),
+                    containerColor = Color(android.graphics.Color.parseColor("#1f1f95")),
                     titleContentColor = Color.White,
                 ),
                 title = {
@@ -307,7 +307,7 @@ fun DataEvent(
                         .height(50.dp)
                         .width(100.dp),
                     onClick = { /* TODO */ },
-                    colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#201c94")))
+                    colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95")))
                 ) {
                     Text(text = "Beli")
                 }

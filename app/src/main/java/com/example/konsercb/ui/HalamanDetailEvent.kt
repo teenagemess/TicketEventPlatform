@@ -1,23 +1,32 @@
 package com.example.konsercb.ui
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,10 +38,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.konsercb.R
 import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.PenyediaViewModel
@@ -61,40 +79,51 @@ fun DetailsScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    Scaffold(
-        topBar = {
-            EventTopAppBar(
-                title = stringResource(id = DetailsDestination.titleRes),
-                canNavigateBack = true,
-                navigateUp = navigateBack
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navigateToEditItem(uiState.value.detailEvent.id) },
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(id = R.string.edit_event),
+    Column {
+        Scaffold(
+            topBar = {
+                EventTopAppBar(
+                    title = stringResource(id = DetailsDestination.titleRes),
+                    canNavigateBack = true,
+                    navigateUp = navigateBack
                 )
-            }
-        },
-        modifier = modifier
-    ) { innerPadding ->
-        ItemDetailsBody(
-            itemDetailsUiState = uiState.value,
-            onDelete = {
-                coroutineScope.launch {
-                    viewModel.deleteItem()
-                    navigateBack
+            },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = { navigateToEditItem(uiState.value.detailEvent.id) },
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = stringResource(id = R.string.edit_event),
+                    )
                 }
             },
-            modifier = Modifier
-                .padding(innerPadding)
-                .verticalScroll(rememberScrollState()),
-        )
+            modifier = modifier
+        ) { innerPadding ->
+            ItemDetailsBody(
+                itemDetailsUiState = uiState.value,
+                onDelete = {
+                    coroutineScope.launch {
+                        viewModel.deleteItem()
+                        navigateBack
+                    }
+                },
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState()),
+            )
+        }
+
+    }
+    Row(verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .height(50.dp)
+            .fillMaxWidth()) {
+
+        Text(text = "Tes")
     }
 }
 
@@ -111,6 +140,10 @@ private fun ItemDetailsBody(
         var deleteConfirmationRequired by rememberSaveable {
             mutableStateOf(false)
         }
+        TicketBanner(
+            event = itemDetailsUiState.detailEvent.toEvent(),
+            modifier = Modifier
+        )
         ItemDetails(
             event = itemDetailsUiState.detailEvent.toEvent(),
             modifier = Modifier.fillMaxWidth()
@@ -137,13 +170,100 @@ private fun ItemDetailsBody(
 }
 
 @Composable
+fun TicketBanner(
+    event: Event,
+    modifier: Modifier
+){
+    val ticketImage = painterResource(R.drawable.gambartiket)
+    val instagram = painterResource(R.drawable.instagram)
+    Card (modifier = Modifier,
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+
+
+        ){
+        Column(
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()) {
+                Image(painter = ticketImage,
+                    contentDescription = "Gambar",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(130.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(15.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+
+            ) {
+                Column(modifier = Modifier
+                    .width(87.dp)
+                    .height(45.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color(android.graphics.Color.parseColor("#fff0cc"))),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(text = "Musik",
+                        color = Color(android.graphics.Color.parseColor("#1f1f95")),
+                        fontWeight = FontWeight.Bold,
+
+                        )
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(painter = instagram, contentDescription ="")
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Text(text = "Instagram")
+                }
+
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = event.namaevent,
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Spacer(modifier = Modifier.height(0.dp))
+            Text(
+                text = "Rp. 50.000",
+                color = Color(android.graphics.Color.parseColor("#f45f09")),
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+
+        }
+    }
+}
+
+@Composable
 fun ItemDetails(
     event: Event, modifier: Modifier = Modifier
 ) {
+    val ticketImage = painterResource(R.drawable.gambartiketbulat)
+    val date = painterResource(R.drawable.date)
+    val address = painterResource(R.drawable.address)
+    val clock = painterResource(R.drawable.clock)
+    val money = painterResource(R.drawable.money)
+
+
     Card(
-        modifier = modifier, colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        modifier = Modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White,
         )
     ) {
         Column(
@@ -152,37 +272,151 @@ fun ItemDetails(
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
-            ItemDetailsRow(
-                labelResID = R.string.namaeventview,
-                itemDetail = event.namaevent,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.alamateventview,
-                itemDetail = event.alamatevent,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.penyelenggaraview,
-                itemDetail = event.penyelenggaraevent,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.deskripsieventview,
-                itemDetail = event.deskripsievent,
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
+
+            Row(Modifier
+                .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = ticketImage,
+                    contentDescription = "tiket",
+                    modifier = Modifier
+                        .width(65.dp)
+                        .clip(CircleShape)
+                    )
+                Spacer(modifier = Modifier.width(30.dp))
+                Column {
+                    Text(
+                        text = "Penyelenggara",
+                        color = Color.Gray
+                        )
+                    Text(text = event.penyelenggaraevent,
+                        overflow = TextOverflow.Ellipsis,
+                        fontWeight = FontWeight.Bold
+                        )
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Row {
+                Image(painter = date, contentDescription = "")
+                Spacer(modifier = Modifier.width(17.dp))
+                Column {
+                    Text(
+                        text = "Tanggal",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Text(
+                        text = event.tanggalevent,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(1.dp))
+            Row {
+                Image(painter = clock, contentDescription = "")
+                Spacer(modifier = Modifier.width(17.dp))
+                Column {
+                    Text(
+                        text = "Waktu",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Text(
+                        text = event.waktuevent,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(1.dp))
+            Row {
+                Image(painter = address, contentDescription = "")
+                Spacer(modifier = Modifier.width(17.dp))
+                Column {
+                    Text(
+                        text = "Lokasi",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Gray
+                    )
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Text(
+                        text = event.alamatevent,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(5.dp))
+
         }
     }
+
+    Spacer(modifier = Modifier.height(20.dp))
+    Column(modifier = Modifier
+        .width(115.dp)
+        .height(48.dp)
+        .clip(RoundedCornerShape(12.dp))
+        .background(Color(android.graphics.Color.parseColor("#1f1f95"))),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(text = "Deskripsi",
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 17.sp
+            )
+    }
+    Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        text = "Deskripsi Event",
+        fontWeight = FontWeight.Bold,
+        fontSize = 17.sp
+    )
+
+
+    Text(
+        text = event.deskripsievent,
+        fontSize = 16.sp
+    )
+
+    Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        text = "Syarat dan Ketentuan",
+        fontWeight = FontWeight.Bold,
+        fontSize = 17.sp
+    )
+    Text(
+        text = "Syarat dan Ketentuan Event :",
+        fontWeight = FontWeight.Bold,
+        color = Color.Gray,
+        fontSize = 17.sp
+    )
+
+    Text(
+        text = "- Dilarang masuk bagi penderita penyakit Jantung, Epilepsi, Asma, dan Penyakit Lainnya yang membahayakan diri sendiri dan orang lain\n\n" +
+                "- Dilarang masuk bagi Balita, Ibu Hamil, dan Manula,\n\n" +
+                "- Dilarang membawa Senjata tajam, barang terlarang, dan benda berbahaya lainnya,\n\n" +
+                "- Demi keamanan dan kenyamanan bersama, pengunjung wajib memenuhi peraturan dan tata tertib yang berlaku.\n\n",
+        fontSize = 16.sp
+    )
+
+    Text(
+        text = "Syarat dan Ketentuan Event :",
+        fontWeight = FontWeight.Bold,
+        color = Color.Gray,
+        fontSize = 17.sp
+    )
+
+    Text(
+        text = "- Tiket yang sudah dibeli tidak dapat ditukar kembali,\n\n" +
+                "- Pastikan tiket yang di beli sesuai dengan Hari dan Jam yang diinginkan,\n\n" +
+                "-  Apabila Ticket di redeem diluar jam yang sudah dipesan, crew dari wahana berhak untuk mengarahkan pembeli menyesuaikan dengan kondisi saat itu (akan diutamakan yang memesan ticket pada jam yang sesuai terlebih dahulu)\n",
+        fontSize = 16.sp
+    )
 }
+
+
 
 @Composable
 private fun ItemDetailsRow(
