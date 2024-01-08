@@ -102,6 +102,7 @@ fun HomeScreen(
 
                         }
                         OutlinedButton(
+                            shape = MaterialTheme.shapes.medium,
                             onClick = navigateToItemEntry,
                             border = BorderStroke(1.dp, Color.White),
                             modifier = Modifier.width(138.dp).height(45.dp)
@@ -303,6 +304,7 @@ fun DataEvent(
                 }
 
                 Button(
+                    shape = MaterialTheme.shapes.medium,
                     modifier = Modifier
                         .height(50.dp)
                         .width(100.dp),

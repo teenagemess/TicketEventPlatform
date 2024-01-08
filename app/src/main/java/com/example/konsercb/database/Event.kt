@@ -13,4 +13,6 @@ data class Event(
     val deskripsievent : String,
     val waktuevent : String,
     val tanggalevent :  String,
+    val category : String,
+    val harga : String
 )

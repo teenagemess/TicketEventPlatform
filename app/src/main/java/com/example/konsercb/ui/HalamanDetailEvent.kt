@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
@@ -120,10 +123,25 @@ fun DetailsScreen(
     Row(verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
-            .height(50.dp)
+            .padding(bottom = 0.dp)
             .fillMaxWidth()) {
 
-        Text(text = "Tes")
+        Column(modifier = Modifier
+            .background(Color.White)
+            .height(80.dp)
+            .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
+                shape = MaterialTheme.shapes.small,
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                Text("Beli Tiket")
+            }
+        }
     }
 }
 
@@ -166,6 +184,7 @@ private fun ItemDetailsBody(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }
+        Spacer(modifier = Modifier.height(50.dp))
     }
 }
 
@@ -208,7 +227,7 @@ fun TicketBanner(
                     .width(87.dp)
                     .height(45.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color(android.graphics.Color.parseColor("#fff0cc"))),
+                    .background(Color(android.graphics.Color.parseColor("#efecf2"))),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
