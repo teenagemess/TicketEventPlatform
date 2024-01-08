@@ -23,8 +23,7 @@ class EntryEventViewModel(private val repositoriEvent: RepositoriEvent): ViewMod
                     alamatevent.isNotBlank() &&
                     penyelenggaraevent.isNotBlank() &&
                     deskripsievent.isNotBlank() &&
-                    waktuevent.isNotBlank() &&
-                    tanggalevent.isNotBlank()
+                    waktuevent.isNotBlank()
         }
     }
 

@@ -59,8 +59,10 @@ import com.example.konsercb.model.UIStateEvent
 import com.example.konsercb.model.addTicketCategory
 import com.example.konsercb.model.updateTicketCategory
 import com.example.konsercb.navigasi.EventTopAppBar
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.Calendar
+
 
 
 object DestinasiEntry : DestinasiNavigasi {
@@ -94,8 +96,10 @@ fun EntryEventScreen(
             onEventValueChange = viewModel::updateUiState,
             onSaveClick = {
                 coroutineScope.launch {
-                    viewModel.saveEvent()
-                    navigateBack()
+                    with(MainScope()) {
+                        viewModel.saveEvent()
+                        navigateBack()
+                    }
                 }
             },
             modifier = Modifier
@@ -212,14 +216,16 @@ fun FormInputEvent(
             singleLine = true
         )
 
-        // Custom Date Picker Button
-        DatePicker(onDateSelected = { selectedDate ->
-            onValueChange(detailEvent.copy(tanggalevent = selectedDate))
-        }, detailEvent = detailEvent)
+        DatePicker(
+            onDateSelected = { selectedDate ->
+                onValueChange(detailEvent.copy(tanggalevent = selectedDate))
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
 
-        if (enabled) {
-            Text(
-                stringResource(id = R.string.required_field),
+
+        if (enabled){
+            Text(stringResource(id = R.string.required_field),
                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
             )
         }
@@ -255,36 +261,30 @@ fun FormInputEvent(
 
 
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DatePicker(
     onDateSelected: (String) -> Unit,
-    detailEvent: DetailEvent,
-    modifier: Modifier = Modifier
+    defaultDate: String = "01/01/2022", // Add a default date
+    modifier: Modifier
 ) {
     val context = LocalContext.current
 
     val calendar = remember { Calendar.getInstance() }
-    val date = remember { mutableStateOf(detailEvent.tanggalevent) }
-
-    LaunchedEffect(detailEvent.tanggalevent) {
-        date.value = detailEvent.tanggalevent
-    }
+    val date = remember { mutableStateOf(defaultDate) } // Use the default date
 
     val datePickerDialog = remember {
         DatePickerDialog(
             context,
             { _, year, month, day ->
-                val selectedDate = "$day/${month + 1}/$year"
-                date.value = selectedDate
-                onDateSelected(selectedDate)
+                date.value = "$day/${month + 1}/$year"
+                onDateSelected(date.value)
             },
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
     }
-
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -317,6 +317,8 @@ fun DatePicker(
         }
     }
 }
+
+
 
 
 
