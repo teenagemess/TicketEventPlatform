@@ -123,7 +123,7 @@ fun DetailsScreen(
             .height(50.dp)
             .fillMaxWidth()) {
 
-        Text(text = "Tes")
+
     }
 }
 
