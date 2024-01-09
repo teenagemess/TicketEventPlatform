@@ -57,9 +57,11 @@ object DetailsDestination : DestinasiNavigasi {
 fun DetailsScreen(
     navigateToEditItem: (Int) -> Unit,
     navigateBack: () -> Unit,
+    navigateToPerson: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailEventViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
+
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
@@ -85,7 +87,6 @@ fun DetailsScreen(
         modifier = modifier
     ) { innerPadding ->
         ItemDetailsBody(
-            itemDetailsUiState = uiState.value,
             onDelete = {
                 coroutineScope.launch {
                     viewModel.deleteItem()
@@ -95,6 +96,8 @@ fun DetailsScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState()),
+            onEntryPersonClick = navigateToPerson,
+            itemDetailsUiState = uiState.value,
         )
     }
 }
@@ -103,7 +106,8 @@ fun DetailsScreen(
 private fun ItemDetailsBody(
     itemDetailsUiState: ItemDetailsUiState,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEntryPersonClick: () -> Unit
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
@@ -112,7 +116,6 @@ private fun ItemDetailsBody(
         var deleteConfirmationRequired by rememberSaveable {
             mutableStateOf(false)
         }
-
         ItemDetails(
             event = itemDetailsUiState.detailEvent.toEvent(),
             onOrderClick = {
@@ -120,6 +123,14 @@ private fun ItemDetailsBody(
             },
             modifier = Modifier.fillMaxWidth()
         )
+
+        OutlinedButton(
+            onClick = onEntryPersonClick,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(id = R.string.isidatadiri))
+        }
 
 
         OutlinedButton(

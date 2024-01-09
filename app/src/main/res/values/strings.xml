@@ -9,6 +9,7 @@
     <string name="buatevent">Buat event</string>
     <string name="tanggaleventreq">Masukkan tanggal event</string>
     <string name="entry_event">Tambah Siswa</string>
+    <string name="entry_person">Masukkan data diri</string>
     <string name="deskripsi_no_item">Tidak ada event saat ini. Tap + untuk buat event</string>
     <string name="namaeventview">Nama event :</string>
     <string name="alamateventview">Alamat Event :</string>
@@ -30,5 +31,9 @@
     <string name="buatcommit">buatcommit</string>
     <string name="btn_tambah_kategori">Tambahkan kategori tiket</string>
     <string name="order_tickets">Pesan tiket</string>
-
+    <string name="namaperson">Masukkan nama anda</string>
+    <string name="emailperson">Masukkan email anda</string>
+    <string name="identitas">Masukkan nomor identitas anda</string>
+    <string name="nohp">Masukkan nomor telpon anda</string>
+    <string name="isidatadiri">Isi data diri anda</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.konsercb.model
 
 
+import EntryPersonViewModel
 import android.text.Spannable.Factory
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
@@ -12,16 +13,19 @@ import com.example.konsercb.AplikasiKonser
 object PenyediaViewModel {
     val Factory = viewModelFactory {
         initializer {
-            HomeViewModel(aplikasiSiswa().container.repositoriEvent)
+            HomeViewModel(aplikasiKonser().container.repositoriEvent)
         }
         initializer {
-            EntryEventViewModel(aplikasiSiswa().container.repositoriEvent)
+            EntryEventViewModel(aplikasiKonser().container.repositoriEvent)
         }
         initializer {
-            DetailEventViewModel(createSavedStateHandle(), aplikasiSiswa().container.repositoriEvent)
+            EntryPersonViewModel(aplikasiKonser().container.repositoriPerson)
         }
         initializer {
-            EditEventViewModel(createSavedStateHandle(), aplikasiSiswa().container.repositoriEvent)
+            DetailEventViewModel(createSavedStateHandle(), aplikasiKonser().container.repositoriEvent)
+        }
+        initializer {
+            EditEventViewModel(createSavedStateHandle(), aplikasiKonser().container.repositoriEvent)
         }
     }
 }
@@ -29,5 +33,5 @@ object PenyediaViewModel {
 /**
  * Extension function for creating [AplikasiKonser] instance from [CreationExtras].
  */
-fun CreationExtras.aplikasiSiswa(): AplikasiKonser =
+fun CreationExtras.aplikasiKonser(): AplikasiKonser =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AplikasiKonser)
