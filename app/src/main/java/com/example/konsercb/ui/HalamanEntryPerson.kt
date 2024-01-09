@@ -28,10 +28,11 @@ import com.example.konsercb.R
 import com.example.konsercb.model.PenyediaViewModel
 import com.example.konsercb.navigasi.DestinasiNavigasi
 import com.example.konsercb.navigasi.EventTopAppBar
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 object DestinasiEntryPerson : DestinasiNavigasi {
-    override val route = "item_entry"
+    override val route = "entry_person"
     override val titleRes = R.string.entry_person
 }
 
@@ -58,10 +59,12 @@ fun EntryPersonScreen(
         EntryPersonBody(
             uiStatePerson = viewModel.uiStatePerson,
             onPersonValueChange = viewModel::updateUiState,
-            onSaveClick = {
+            onDataSaveClick = {
                 coroutineScope.launch {
-                    viewModel.savePerson()
-                    navigateBack()
+                    with(MainScope()) {
+                        viewModel.savePerson()
+                        navigateBack()
+                    }
                 }
             },
             modifier = Modifier
@@ -76,7 +79,7 @@ fun EntryPersonScreen(
 fun EntryPersonBody(
     uiStatePerson: UIStatePerson,
     onPersonValueChange: (DetailPerson) -> Unit,
-    onSaveClick: () -> Unit,
+    onDataSaveClick: () -> Unit,
     modifier: Modifier
 ) {
     Column(
@@ -89,7 +92,7 @@ fun EntryPersonBody(
             modifier = Modifier.fillMaxWidth()
         )
         Button(
-            onClick = onSaveClick,
+            onClick = onDataSaveClick,
             enabled = uiStatePerson.isEntryValid,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
@@ -125,9 +128,9 @@ fun FormInputPerson(
             enabled = enabled,
             singleLine = true
         )
-        OutlinedTextField(value = detailPerson.nohp,
-            onValueChange = {onValueChange(detailPerson.copy(nohp = it))},
-            label = { Text(stringResource(id = R.string.nohp))},
+        OutlinedTextField(value = detailPerson.identitas,
+            onValueChange = {onValueChange(detailPerson.copy(identitas = it))},
+            label = { Text(stringResource(id = R.string.identitas))},
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true

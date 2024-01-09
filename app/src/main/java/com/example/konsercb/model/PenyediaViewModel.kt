@@ -13,7 +13,7 @@ import com.example.konsercb.AplikasiKonser
 object PenyediaViewModel {
     val Factory = viewModelFactory {
         initializer {
-            HomeViewModel(aplikasiKonser().container.repositoriEvent)
+            HomeViewModel(aplikasiKonser().container.repositoriEvent,aplikasiKonser().container.repositoriPerson)
         }
         initializer {
             EntryEventViewModel(aplikasiKonser().container.repositoriEvent)

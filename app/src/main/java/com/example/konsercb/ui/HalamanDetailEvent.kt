@@ -58,6 +58,7 @@ fun DetailsScreen(
     navigateToEditItem: (Int) -> Unit,
     navigateBack: () -> Unit,
     navigateToPerson: () -> Unit,
+    navigateToDataPerson: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailEventViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
@@ -98,6 +99,7 @@ fun DetailsScreen(
                 .verticalScroll(rememberScrollState()),
             onEntryPersonClick = navigateToPerson,
             itemDetailsUiState = uiState.value,
+            onDataPersonClick = navigateToDataPerson,
         )
     }
 }
@@ -107,7 +109,8 @@ private fun ItemDetailsBody(
     itemDetailsUiState: ItemDetailsUiState,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
-    onEntryPersonClick: () -> Unit
+    onEntryPersonClick: () -> Unit,
+    onDataPersonClick: () -> Unit
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
@@ -130,6 +133,13 @@ private fun ItemDetailsBody(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(stringResource(id = R.string.isidatadiri))
+        }
+        OutlinedButton(
+            onClick = onDataPersonClick,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(id = R.string.lihatdatadiri))
         }
 
 

@@ -36,4 +36,5 @@
     <string name="identitas">Masukkan nomor identitas anda</string>
     <string name="nohp">Masukkan nomor telpon anda</string>
     <string name="isidatadiri">Isi data diri anda</string>
+    <string name="lihatdatadiri">Lihat data diri anda</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.example.konsercb.navigasi
 
 
+import DataPersonScreen
+import DestinasiDataPerson
 import HomeScreen
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -97,7 +99,8 @@ fun HostNavigasi(
                     navController.navigate("${ItemEditDestination.route}/$it")
                 },
                 navigateBack = { navController.popBackStack() },
-                navigateToPerson = { navController.navigate(DestinasiEntryPerson.route) }
+                navigateToPerson = { navController.navigate(DestinasiEntryPerson.route) },
+                navigateToDataPerson = { navController.navigate(DestinasiDataPerson.route) }
             )
         }
 
@@ -112,6 +115,9 @@ fun HostNavigasi(
         composable(DestinasiEntryPerson.route) {
             EntryPersonScreen(navigateBack = { navController.popBackStack() })
 
+        }
+        composable(DestinasiDataPerson.route){
+            DataPersonScreen(navigateToItemEntry = { /*TODO*/ })
         }
     }
 }
