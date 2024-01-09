@@ -18,6 +18,9 @@ object PenyediaViewModel{
             EntryEventViewModel(aplikasiSiswa().container.repositoriEvent)
         }
         initializer {
+            EntryPersonViewModel(aplikasiSiswa().container.repositoriPerson)
+        }
+        initializer {
             DetailEventViewModel(createSavedStateHandle(),aplikasiSiswa().container.repositoriEvent)
         }
         initializer {

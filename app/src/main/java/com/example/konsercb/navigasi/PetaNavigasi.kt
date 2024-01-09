@@ -29,6 +29,8 @@ import com.example.konsercb.ui.EntryEventScreen
 import com.example.konsercb.ui.ItemEditDestination
 import com.example.konsercb.ui.ItemEditScreen
 import com.example.konsercb.R
+import com.example.konsercb.ui.DestinasiEntryPerson
+import com.example.konsercb.ui.EntryPersonScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -96,6 +98,7 @@ fun HostNavigasi(
                     navController.navigate("${ItemEditDestination.route}/$it")
                 },
                 navigateBack = { navController.popBackStack() },
+                navigateToPerson = { navController.navigate(DestinasiEntryPerson.route) }
             )
         }
 
@@ -107,5 +110,8 @@ fun HostNavigasi(
         ){
             ItemEditScreen(navigateBack = { navController.popBackStack() }, onNavigateUp = { navController.navigateUp() })
         }
+        composable(DestinasiEntryPerson.route) {
+            EntryPersonScreen(navigateBack = { navController.popBackStack() })
     }
+}
 }

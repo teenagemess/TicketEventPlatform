@@ -74,11 +74,12 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
     implementation("androidx.compose.material3:material3:1.1.0-alpha08")
 
-
     //Room
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
     ksp("androidx.room:room-compiler:${rootProject.extra["room_version"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["room_version"]}")
+
+    implementation ("com.google.code.gson:gson:2.8.9")
 
     //carousel
     implementation ("androidx.compose.ui:ui:1.0.5")

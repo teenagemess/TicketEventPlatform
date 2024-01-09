@@ -77,6 +77,7 @@ object DetailsDestination : DestinasiNavigasi {
 fun DetailsScreen(
     navigateToEditItem: (Int) -> Unit,
     navigateBack: () -> Unit,
+    navigateToPerson: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailEventViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
@@ -131,7 +132,7 @@ fun DetailsScreen(
             .height(80.dp)
             .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
             Button(
-                onClick = {},
+                onClick = navigateToPerson,
                 colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
                 shape = MaterialTheme.shapes.small,
                 modifier = Modifier
@@ -149,7 +150,7 @@ fun DetailsScreen(
 private fun ItemDetailsBody(
     itemDetailsUiState: ItemDetailsUiState,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
