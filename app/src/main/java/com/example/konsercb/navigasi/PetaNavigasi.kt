@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -37,14 +38,17 @@ import com.example.konsercb.ui.EntryEventScreen
 import com.example.konsercb.ui.ItemEditDestination
 import com.example.konsercb.ui.ItemEditScreen
 import com.example.konsercb.R
+import com.example.konsercb.database.Event
+import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.OrderViewModel
+import com.example.konsercb.model.PenyediaViewModel
 import com.example.roomsiswa.ui.DestinasiEntryPerson
 import com.example.roomsiswa.ui.HalamanPelanggan
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventApp(navController: NavHostController = rememberNavController()) {
-    HostNavigasi(navController = navController)
+    HostNavigasi(navController = navController, )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -80,9 +84,10 @@ fun HostNavigasi(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+
 ) {
 
-    val uiState by viewModel.stateUI.collectAsState()
+    val StateUi by viewModel.stateUI.collectAsState()
     NavHost(
         navController = navController,
         startDestination = DestinasiHome.route,
@@ -137,7 +142,7 @@ fun HostNavigasi(
         }
         composable(DestinasiDataPerson.route) {
             HalamanDua(
-                orderUIState = uiState,)
+                orderUIState = StateUi)
         }
     }
 }

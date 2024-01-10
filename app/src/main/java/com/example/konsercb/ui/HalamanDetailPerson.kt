@@ -20,8 +20,11 @@ import com.example.konsercb.database.Person
 import com.example.konsercb.model.PenyediaViewModel
 import com.example.konsercb.navigasi.DestinasiNavigasi
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.konsercb.database.Event
 import com.example.konsercb.database.OrderUIState
 import com.example.konsercb.model.HomeViewModel
+import com.example.konsercb.model.ItemDetailsUiState
+import com.example.konsercb.model.toEvent
 import com.example.konsercb.navigasi.EventTopAppBar
 
 object DestinasiDataPerson : DestinasiNavigasi {
@@ -32,14 +35,15 @@ object DestinasiDataPerson : DestinasiNavigasi {
 @Composable
 fun HalamanDua(
     orderUIState: OrderUIState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ){
     val items = listOf(
         Pair("Nama Pelanggan", orderUIState.namaperson),
         Pair("Nomor Telepon", orderUIState.nohp),
-        Pair("Alamat", orderUIState.emailperson),
-        Pair("Jumlah", orderUIState.identitas.toString()),
+        Pair("Email", orderUIState.emailperson),
+        Pair("No KTP", orderUIState.identitas),
     )
+    
     Column(
         modifier = Modifier,
         verticalArrangement = Arrangement.SpaceBetween
@@ -51,9 +55,8 @@ fun HalamanDua(
             items.forEach { item ->
                 Column {
                     Text(item.first.uppercase())
-                    Text(text = item.second.toString(), fontWeight = FontWeight.Bold)
+                    Text(text = item.second, fontWeight = FontWeight.Bold)
                 }
-                Divider(thickness = dimensionResource(R.dimen.padding_small))
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_small)))
         }
@@ -64,4 +67,11 @@ fun HalamanDua(
         ) {
         }
     }
+}
+
+@Composable
+fun PanggilTicket(
+    event: Event
+){
+    Text(text = event.namaevent)
 }
