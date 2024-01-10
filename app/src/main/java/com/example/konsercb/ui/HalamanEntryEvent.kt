@@ -302,41 +302,6 @@ fun FormInputEvent(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun DateButton(onDateSelected: (String) -> Unit) {
-    val context = LocalContext.current
-    val calendar = remember { Calendar.getInstance() }
-    var showDialog by remember { mutableStateOf(false) }
-
-    OutlinedButton(
-        onClick = { showDialog = true },
-        modifier = Modifier.size(8.dp),
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_date),
-            contentDescription = null,
-            modifier = Modifier.size(24.dp)
-        )
-    }
-
-    LaunchedEffect(showDialog) {
-        if (showDialog) {
-            val datePickerDialog = DatePickerDialog(
-                context,
-                { _, year, month, day ->
-                    val selectedDate = "$day/$month/$year"
-                    onDateSelected(selectedDate)
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-
-            datePickerDialog.show()
-        }
-    }
-}
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

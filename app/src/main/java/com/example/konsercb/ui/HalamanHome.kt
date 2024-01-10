@@ -60,6 +60,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.konsercb.ui.DetailsDestination
 
@@ -76,6 +77,7 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory),
     onDetailClick: (Int) -> Unit = {},
+    navController: NavHostController,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val logo = painterResource(R.drawable.logo)
@@ -105,6 +107,7 @@ fun HomeScreen(
                             )
 
                         }
+
                         OutlinedButton(
                             shape = MaterialTheme.shapes.medium,
                             onClick = navigateToItemEntry,
@@ -128,7 +131,7 @@ fun HomeScreen(
             modifier = Modifier
                 .padding(innerpadding)
                 .fillMaxSize(),
-            onEventClick = onDetailClick
+            navController = navController,
         )
     }
 }
@@ -136,9 +139,9 @@ fun HomeScreen(
 fun BodyHome(
     itemEvent: List<Event>,
     modifier: Modifier = Modifier,
-    onEventClick: (Int) -> Unit = {},
+    navController: NavHostController,
 
-) {
+    ) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -178,47 +181,28 @@ fun BodyHome(
         } else {
             items(itemEvent) { event ->
                 DataEvent(
+                    navController = navController,
                     event = event,
                     modifier = Modifier
                         .background(Color.White)
                         .padding(vertical = 15.dp, horizontal = 12.dp)
-                        .clickable { onEventClick(event.id) },
                 )
             }
         }
     }
 }
 
-@Composable
-fun ListEvent(
-    itemEvent: List<Event>,
-    modifier: Modifier = Modifier,
-    onItemClick: (Event) -> Unit
-) {
-    LazyColumn(modifier = modifier) {
-        items(items = itemEvent, key = { it.id }) { event ->
-            DataEvent(
-                event = event,
-                modifier = Modifier
-                    .background(Color.White)
-                    .padding(vertical = 10.dp)
-                    .clickable { onItemClick(event) },
-            )
-        }
-    }
-}
 
 @Composable
 fun DataEvent(
     event: Event,
     modifier: Modifier = Modifier,
-    navigateToDetail: () -> Unit = {}
+    navController: NavHostController,
 ) {
     val ticketImage = painterResource(R.drawable.gambartiket)
     val address = painterResource(R.drawable.address)
     val clock = painterResource(R.drawable.clock)
     val date = painterResource(R.drawable.date)
-    val navController = rememberNavController()
 
 
 
@@ -318,7 +302,9 @@ fun DataEvent(
                     modifier = Modifier
                         .height(50.dp)
                         .width(100.dp),
-                    onClick = navigateToDetail,
+                    onClick = {
+                        navController.navigate("${DetailsDestination.route}/${event.id}")
+                    },
                     colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95")))
                 ) {
                     Text(text = "Beli")

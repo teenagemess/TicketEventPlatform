@@ -84,8 +84,9 @@ fun HostNavigasi(
         composable(DestinasiHome.route) {
             HomeScreen(
                 navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
-                onDetailClick = {
-                    navController.navigate("${DetailsDestination.route}/$it")
+                navController = navController,  // Pass the NavController to HomeScreen
+                onDetailClick = { eventId ->
+                    navController.navigate("${DetailsDestination.route}/$eventId")
                 }
             )
         }
