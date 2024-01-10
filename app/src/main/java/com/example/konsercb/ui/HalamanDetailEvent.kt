@@ -77,7 +77,7 @@ object DetailsDestination : DestinasiNavigasi {
 fun DetailsScreen(
     navigateToEditItem: (Int) -> Unit,
     navigateBack: () -> Unit,
-    navigateToPerson: () -> Unit,
+    navigateToPerson: () -> Unit = {},
     modifier: Modifier = Modifier,
     viewModel: DetailEventViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {

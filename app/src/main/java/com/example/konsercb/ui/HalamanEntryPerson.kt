@@ -31,7 +31,7 @@ import com.example.konsercb.navigasi.EventTopAppBar
 import kotlinx.coroutines.launch
 
 object DestinasiEntryPerson : DestinasiNavigasi {
-    override val route = "item_entry"
+    override val route = "entry_person"
     override val titleRes = R.string.entry_person
 }
 
@@ -113,36 +113,35 @@ fun FormInputPerson(
     ) {
         OutlinedTextField(value = detailPerson.namaperson,
             onValueChange = {onValueChange(detailPerson.copy(namaperson = it))},
-            label = { Text(stringResource(id = R.string.namaperson)) },
+            label = { Text(stringResource(id = R.string.namaperson))},
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
         OutlinedTextField(value = detailPerson.emailperson,
             onValueChange = {onValueChange(detailPerson.copy(emailperson = it))},
-            label = { Text(stringResource(id = R.string.emailperson)) },
+            label = { Text(stringResource(id = R.string.emailperson))},
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
         OutlinedTextField(value = detailPerson.nohp,
             onValueChange = {onValueChange(detailPerson.copy(nohp = it))},
-            label = { Text(stringResource(id = R.string.nohp)) },
+            label = { Text(stringResource(id = R.string.nohp))},
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
         OutlinedTextField(value = detailPerson.nohp,
             onValueChange = {onValueChange(detailPerson.copy(nohp = it))},
-            label = { Text(stringResource(id = R.string.nohp)) },
+            label = { Text(stringResource(id = R.string.nohp))},
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
         )
 
         if (enabled){
-            Text(
-                stringResource(id = R.string.required_field),
+            Text(stringResource(id = R.string.required_field),
                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
             )
         }

@@ -4,15 +4,25 @@ import android.app.DatePickerDialog
 import android.os.Build
 import android.widget.DatePicker
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,13 +40,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.konsercb.R
 import com.example.konsercb.model.EntryEventViewModel
@@ -111,12 +128,13 @@ fun EntryEventBody(
             modifier = Modifier.fillMaxWidth()
         )
         Button(
+            colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
             onClick = onSaveClick,
             enabled = uiStateEvent.isEntryValid,
             shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().height(45.dp)
         ) {
-            Text(stringResource(id = R.string.btn_submit))
+            Text(stringResource(id = R.string.btn_submit), fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
     }
 }
@@ -130,67 +148,157 @@ fun FormInputEvent(
     modifier: Modifier
 ){
 
+    val event = painterResource(R.drawable.ic_event)
+
+
     Column(
-        modifier = modifier,
+        modifier = Modifier.padding(15.dp),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
+        Row (verticalAlignment = Alignment.CenterVertically) {
+            Image(painter = event, contentDescription = "")
+            Spacer(modifier = Modifier.width(15.dp))
+            Text(text = "Data Event", fontSize = 21.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+        }
+            Spacer(modifier = Modifier.height(0.dp))
+        Divider(color = Color.LightGray)
+            Spacer(modifier = Modifier.height(5.dp))
+        Text(
+            fontSize = 16.sp,
+            text = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Black)) {
+                    append("Tanggal Event")
+                }
+                withStyle(SpanStyle(color = Color.Red)) {
+                    append(" *")
+                }
+            }
+        )
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+            OutlinedTextField(
+                value = detailEvent.tanggalevent,
+                onValueChange = { onValueChange(detailEvent.copy(tanggalevent = it)) },
+                modifier = Modifier
+                    .height(50.dp)
+                    .width(265.dp),
+                enabled = false,
+                shape = MaterialTheme.shapes.medium,
+                singleLine = true,
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            DatePicker { selectedDate ->
+                onValueChange(detailEvent.copy(tanggalevent = selectedDate))
+            }
+        }
+        Text(
+            fontSize = 16.sp,
+            text = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Black)) {
+                    append("Nama Event")
+                }
+                withStyle(SpanStyle(color = Color.Red)) {
+                    append(" *")
+                }
+            }
+        )
         OutlinedTextField(value = detailEvent.namaevent,
             onValueChange = {onValueChange(detailEvent.copy(namaevent = it))},
-            label = { Text(stringResource(id = R.string.namaeventreq))},
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth(),
             enabled = enabled,
+            shape = MaterialTheme.shapes.medium,
             singleLine = true
         )
-        OutlinedTextField(value = detailEvent.alamatevent,
-            onValueChange = {onValueChange(detailEvent.copy(alamatevent = it))},
-            label = { Text(stringResource(id = R.string.alamatreq))},
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true
+        Text(
+            fontSize = 16.sp,
+            text = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Black)) {
+                    append("Penyelenggara Event")
+                }
+                withStyle(SpanStyle(color = Color.Red)) {
+                    append(" *")
+                }
+            }
         )
         OutlinedTextField(value = detailEvent.penyelenggaraevent,
             onValueChange = {onValueChange(detailEvent.copy(penyelenggaraevent = it))},
-            label = { Text(stringResource(id = R.string.penyelenggarareq))},
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth(),
             enabled = enabled,
+            shape = MaterialTheme.shapes.medium,
             singleLine = true
         )
-        OutlinedTextField(value = detailEvent.deskripsievent,
-            onValueChange = {onValueChange(detailEvent.copy(deskripsievent = it))},
-            label = { Text(stringResource(id = R.string.deskripsieventreq))},
-            modifier = Modifier.fillMaxWidth(),
+        Text(
+            fontSize = 16.sp,
+            text = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Black)) {
+                    append("Alamat Event")
+                }
+                withStyle(SpanStyle(color = Color.Red)) {
+                    append(" *")
+                }
+            }
+        )
+        OutlinedTextField(value = detailEvent.alamatevent,
+            onValueChange = {onValueChange(detailEvent.copy(alamatevent = it))},
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth(),
             enabled = enabled,
+            shape = MaterialTheme.shapes.medium,
             singleLine = true
+        )
+        Text(
+            fontSize = 16.sp,
+            text = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Black)) {
+                    append("Waktu Event")
+                }
+                withStyle(SpanStyle(color = Color.Red)) {
+                    append(" *")
+                }
+            }
         )
         OutlinedTextField(value = detailEvent.waktuevent,
             onValueChange = {onValueChange(detailEvent.copy(waktuevent = it))},
-            label = { Text(stringResource(id = R.string.waktueventreq))},
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth(),
             enabled = enabled,
+            shape = MaterialTheme.shapes.medium,
             singleLine = true
         )
-        OutlinedTextField(
-            value = detailEvent.tanggalevent,
-            onValueChange = { onValueChange(detailEvent.copy(tanggalevent = it)) },
-            label = { Text(stringResource(id = R.string.tanggaleventreq)) },
-            modifier = Modifier.fillMaxWidth(),
+        Text(
+            fontSize = 16.sp,
+            text = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.Black)) {
+                    append("Deskripsi Event")
+                }
+                withStyle(SpanStyle(color = Color.Red)) {
+                    append(" *")
+                }
+            }
+        )
+        OutlinedTextField(value = detailEvent.deskripsievent,
+            onValueChange = {onValueChange(detailEvent.copy(deskripsievent = it))},
+            modifier = Modifier
+                .height(50.dp)
+                .fillMaxWidth(),
             enabled = enabled,
-            singleLine = true,
+            shape = MaterialTheme.shapes.medium,
+            singleLine = true
         )
 
         // Custom Date Picker Button
-        DatePicker { selectedDate ->
-            onValueChange(detailEvent.copy(tanggalevent = selectedDate))
-        }
+
         if (enabled){
             Text(stringResource(id = R.string.required_field),
+                color = Color.Red,
                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
             )
         }
-        Divider(
-            thickness = dimensionResource(id = R.dimen.padding_small),
-            modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_medium))
-        )
     }
 }
 
@@ -203,7 +311,7 @@ fun DateButton(onDateSelected: (String) -> Unit) {
 
     OutlinedButton(
         onClick = { showDialog = true },
-        modifier = Modifier.size(48.dp),
+        modifier = Modifier.size(8.dp),
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_date),
@@ -235,6 +343,8 @@ fun DateButton(onDateSelected: (String) -> Unit) {
 fun DatePicker(onDateSelected: (String) -> Unit) {
     val context = LocalContext.current
 
+    val dategray = painterResource(R.drawable.date_gray)
+
     val calendar = remember { Calendar.getInstance() }
     val date = remember { mutableStateOf("") }
 
@@ -250,14 +360,13 @@ fun DatePicker(onDateSelected: (String) -> Unit) {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
     }
-    OutlinedButton(
+    Button(
         onClick = { datePickerDialog.show() },
-        modifier = Modifier.size(48.dp),
+        modifier = Modifier.height(50.dp),
+        shape = MaterialTheme.shapes.medium,
+        colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#e9ecef")))
+
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.ic_date),
-            contentDescription = null,
-            modifier = Modifier.size(24.dp)
-        )
+       Image(painter = dategray, contentDescription = "", modifier = Modifier.fillMaxSize())
     }
 }

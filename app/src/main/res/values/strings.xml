@@ -16,7 +16,7 @@
     <string name="penyelenggaraview">Penyelenggara :</string>
     <string name="waktueventview">Waktu event :</string>
     <string name="tanggaleventview">Tanggal event :</string>
-    <string name="required_field">* required fields</string>
+    <string name="required_field">* Kolom harus diisi semua</string>
     <string name="btn_submit">Submit</string>
     <string name="detail_event">Detail Event</string>
     <string name="edit_event">Edit Event</string>

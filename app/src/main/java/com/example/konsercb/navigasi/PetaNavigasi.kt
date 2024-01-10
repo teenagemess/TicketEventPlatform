@@ -4,6 +4,7 @@ package com.example.konsercb.navigasi
 import HomeScreen
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -12,9 +13,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -47,17 +51,18 @@ fun EventTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior? = null,
     navigateUp: () -> Unit = {}
 ) {
-    TopAppBar(title = { Text(title) },
+    val whitearrow = painterResource(R.drawable.white_arrow)
+    CenterAlignedTopAppBar(title = { Text(title) },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(android.graphics.Color.parseColor("#1f1f95")),
+            titleContentColor = androidx.compose.ui.graphics.Color.White
+        ),
         modifier = modifier,
         scrollBehavior = scrollBehavior,
         navigationIcon = {
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack, contentDescription = stringResource(
-                            id = R.string.back
-                        )
-                    )
+                    Image(painter = whitearrow, contentDescription = "")
                 }
             }
         }
@@ -104,14 +109,17 @@ fun HostNavigasi(
 
         composable(
             ItemEditDestination.routeWithArgs,
-            arguments = listOf(navArgument(ItemEditDestination.itemIdArg){
+            arguments = listOf(navArgument(ItemEditDestination.itemIdArg) {
                 type = NavType.IntType
             })
-        ){
-            ItemEditScreen(navigateBack = { navController.popBackStack() }, onNavigateUp = { navController.navigateUp() })
+        ) {
+            ItemEditScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() })
         }
         composable(DestinasiEntryPerson.route) {
             EntryPersonScreen(navigateBack = { navController.popBackStack() })
+
+        }
     }
-}
 }

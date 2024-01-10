@@ -60,6 +60,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.example.konsercb.ui.DetailsDestination
 
 
 object DestinasiHome : DestinasiNavigasi {
@@ -87,7 +89,9 @@ fun HomeScreen(
                     titleContentColor = Color.White,
                 ),
                 title = {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier) {
                             Image(painter = logo, contentDescription = "", modifier = Modifier
                                 .width(30.dp)
@@ -105,7 +109,9 @@ fun HomeScreen(
                             shape = MaterialTheme.shapes.medium,
                             onClick = navigateToItemEntry,
                             border = BorderStroke(1.dp, Color.White),
-                            modifier = Modifier.width(138.dp).height(45.dp)
+                            modifier = Modifier
+                                .width(138.dp)
+                                .height(45.dp)
                         ) {
                             Text(text = "Tambah Event", color = Color.White)
                         }
@@ -130,7 +136,8 @@ fun HomeScreen(
 fun BodyHome(
     itemEvent: List<Event>,
     modifier: Modifier = Modifier,
-    onEventClick: (Int) -> Unit = {}
+    onEventClick: (Int) -> Unit = {},
+
 ) {
     LazyColumn(
         modifier = modifier
@@ -175,7 +182,7 @@ fun BodyHome(
                     modifier = Modifier
                         .background(Color.White)
                         .padding(vertical = 15.dp, horizontal = 12.dp)
-                        .clickable { onEventClick(event.id) }
+                        .clickable { onEventClick(event.id) },
                 )
             }
         }
@@ -195,7 +202,7 @@ fun ListEvent(
                 modifier = Modifier
                     .background(Color.White)
                     .padding(vertical = 10.dp)
-                    .clickable { onItemClick(event) }
+                    .clickable { onItemClick(event) },
             )
         }
     }
@@ -205,11 +212,14 @@ fun ListEvent(
 fun DataEvent(
     event: Event,
     modifier: Modifier = Modifier,
+    navigateToDetail: () -> Unit = {}
 ) {
     val ticketImage = painterResource(R.drawable.gambartiket)
     val address = painterResource(R.drawable.address)
     val clock = painterResource(R.drawable.clock)
     val date = painterResource(R.drawable.date)
+    val navController = rememberNavController()
+
 
 
     Card(
@@ -308,7 +318,7 @@ fun DataEvent(
                     modifier = Modifier
                         .height(50.dp)
                         .width(100.dp),
-                    onClick = { /* TODO */ },
+                    onClick = navigateToDetail,
                     colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95")))
                 ) {
                     Text(text = "Beli")
