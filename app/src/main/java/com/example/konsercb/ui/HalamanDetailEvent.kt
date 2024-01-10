@@ -59,6 +59,7 @@ import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.PenyediaViewModel
 import com.example.konsercb.navigasi.DestinasiNavigasi
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.konsercb.database.Event
 import com.example.konsercb.model.ItemDetailsUiState
 import com.example.konsercb.model.toEvent
@@ -75,9 +76,9 @@ object DetailsDestination : DestinasiNavigasi {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
-    navigateToEditItem: (Int) -> Unit,
     navigateBack: () -> Unit,
     navigateToPerson: () -> Unit = {},
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: DetailEventViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
@@ -92,18 +93,6 @@ fun DetailsScreen(
                     navigateUp = navigateBack
                 )
             },
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { navigateToEditItem(uiState.value.detailEvent.id) },
-                    shape = MaterialTheme.shapes.medium,
-                    modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = stringResource(id = R.string.edit_event),
-                    )
-                }
-            },
             modifier = modifier
         ) { innerPadding ->
             ItemDetailsBody(
@@ -117,20 +106,27 @@ fun DetailsScreen(
                 modifier = Modifier
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState()),
+                navController = navController,
             )
         }
 
     }
-    Row(verticalAlignment = Alignment.Bottom,
+    Row(
+        verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .padding(bottom = 0.dp)
-            .fillMaxWidth()) {
+            .fillMaxWidth()
+    ) {
 
-        Column(modifier = Modifier
-            .background(Color.White)
-            .height(80.dp)
-            .fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .height(80.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Button(
                 onClick = navigateToPerson,
                 colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
@@ -151,6 +147,7 @@ private fun ItemDetailsBody(
     itemDetailsUiState: ItemDetailsUiState,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
+    navController: NavController,
 ) {
     Column(
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
@@ -173,7 +170,21 @@ private fun ItemDetailsBody(
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(stringResource(id = R.string.delete))
+            Text(
+                stringResource(id = R.string.delete),
+                color = Color(android.graphics.Color.parseColor("#1f1f95"))
+            )
+        }
+        Button(
+            onClick = {
+                // Navigate to the Edit screen when the button is clicked
+                navController.navigate("${ItemEditDestination.route}/${itemDetailsUiState.detailEvent.id}")
+            },
+            colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Edit Event",)
         }
         if (deleteConfirmationRequired) {
             DeleteConfirmationDialog(
@@ -193,23 +204,26 @@ private fun ItemDetailsBody(
 fun TicketBanner(
     event: Event,
     modifier: Modifier
-){
+) {
     val ticketImage = painterResource(R.drawable.gambartiket)
     val instagram = painterResource(R.drawable.instagram)
-    Card (modifier = Modifier,
+    Card(
+        modifier = Modifier,
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
 
 
-        ){
+        ) {
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
             Row(
                 horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()) {
-                Image(painter = ticketImage,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Image(
+                    painter = ticketImage,
                     contentDescription = "Gambar",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -224,22 +238,24 @@ fun TicketBanner(
                 verticalAlignment = Alignment.CenterVertically
 
             ) {
-                Column(modifier = Modifier
-                    .width(87.dp)
-                    .height(45.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color(android.graphics.Color.parseColor("#efecf2"))),
+                Column(
+                    modifier = Modifier
+                        .width(87.dp)
+                        .height(45.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(android.graphics.Color.parseColor("#efecf2"))),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(text = "Musik",
+                    Text(
+                        text = "Musik",
                         color = Color(android.graphics.Color.parseColor("#1f1f95")),
                         fontWeight = FontWeight.Bold,
 
                         )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(painter = instagram, contentDescription ="")
+                    Image(painter = instagram, contentDescription = "")
                     Spacer(modifier = Modifier.width(5.dp))
                     Text(text = "Instagram")
                 }
@@ -276,7 +292,6 @@ fun ItemDetails(
     val date = painterResource(R.drawable.date)
     val address = painterResource(R.drawable.address)
     val clock = painterResource(R.drawable.clock)
-    val money = painterResource(R.drawable.money)
 
 
     Card(
@@ -293,26 +308,29 @@ fun ItemDetails(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
         ) {
 
-            Row(Modifier
-                .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Image(
                     painter = ticketImage,
                     contentDescription = "tiket",
                     modifier = Modifier
                         .width(65.dp)
                         .clip(CircleShape)
-                    )
+                )
                 Spacer(modifier = Modifier.width(30.dp))
                 Column {
                     Text(
                         text = "Penyelenggara",
                         color = Color.Gray
-                        )
-                    Text(text = event.penyelenggaraevent,
+                    )
+                    Text(
+                        text = event.penyelenggaraevent,
                         overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.Bold
-                        )
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(5.dp))
@@ -373,19 +391,21 @@ fun ItemDetails(
     }
 
     Spacer(modifier = Modifier.height(20.dp))
-    Column(modifier = Modifier
-        .width(115.dp)
-        .height(48.dp)
-        .clip(RoundedCornerShape(12.dp))
-        .background(Color(android.graphics.Color.parseColor("#1f1f95"))),
+    Column(
+        modifier = Modifier
+            .width(115.dp)
+            .height(48.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(android.graphics.Color.parseColor("#1f1f95"))),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(text = "Deskripsi",
+        Text(
+            text = "Deskripsi",
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 17.sp
-            )
+        )
     }
     Spacer(modifier = Modifier.height(10.dp))
     Text(
@@ -435,7 +455,6 @@ fun ItemDetails(
         fontSize = 16.sp
     )
 }
-
 
 
 @Composable

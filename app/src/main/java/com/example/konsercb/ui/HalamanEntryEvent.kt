@@ -132,7 +132,9 @@ fun EntryEventBody(
             onClick = onSaveClick,
             enabled = uiStateEvent.isEntryValid,
             shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth().height(45.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(45.dp)
         ) {
             Text(stringResource(id = R.string.btn_submit), fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }

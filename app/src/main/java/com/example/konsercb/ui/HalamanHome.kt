@@ -135,6 +135,7 @@ fun HomeScreen(
         )
     }
 }
+
 @Composable
 fun BodyHome(
     itemEvent: List<Event>,

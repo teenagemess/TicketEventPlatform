@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -100,11 +101,9 @@ fun HostNavigasi(
             })
         ) {
             DetailsScreen(
-                navigateToEditItem = {
-                    navController.navigate("${ItemEditDestination.route}/$it")
-                },
                 navigateBack = { navController.popBackStack() },
-                navigateToPerson = { navController.navigate(DestinasiEntryPerson.route) }
+                navigateToPerson = { navController.navigate(DestinasiEntryPerson.route)},
+                navController = navController
             )
         }
 
