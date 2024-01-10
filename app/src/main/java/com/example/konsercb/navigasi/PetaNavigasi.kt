@@ -1,7 +1,7 @@
 package com.example.konsercb.navigasi
 
-
-import DataPersonScreen
+import DestinasiDataPerson
+import HalamanDua
 import HomeScreen
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -17,6 +17,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -35,8 +37,9 @@ import com.example.konsercb.ui.EntryEventScreen
 import com.example.konsercb.ui.ItemEditDestination
 import com.example.konsercb.ui.ItemEditScreen
 import com.example.konsercb.R
+import com.example.konsercb.model.OrderViewModel
 import com.example.roomsiswa.ui.DestinasiEntryPerson
-import com.example.roomsiswa.ui.EntryPersonScreen
+import com.example.roomsiswa.ui.HalamanPelanggan
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -75,8 +78,11 @@ fun EventTopAppBar(
 @Composable
 fun HostNavigasi(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
 ) {
+
+    val uiState by viewModel.stateUI.collectAsState()
     NavHost(
         navController = navController,
         startDestination = DestinasiHome.route,
@@ -119,11 +125,19 @@ fun HostNavigasi(
                 onNavigateUp = { navController.navigateUp() })
         }
         composable(DestinasiEntryPerson.route) {
-            EntryPersonScreen(navigateBack = { navController.popBackStack() }, navController = navController)
-
+            HalamanPelanggan(onSubmitButtonClicked = { namaperson, nohp, emailperson, identitas ->
+                viewModel.setContact(namaperson, nohp, emailperson, identitas)
+                navController.navigate(DestinasiDataPerson.route)
+            },
+                onCancelButtonClicked = {
+                    navController.navigateUp()
+                },
+                navigateBack = { navController.popBackStack() }
+            )
         }
-        composable(DestinasiDataPerson.route){
-            DataPersonScreen(navigateToItemEntry = { /*TODO*/ })
+        composable(DestinasiDataPerson.route) {
+            HalamanDua(
+                orderUIState = uiState,)
         }
     }
 }

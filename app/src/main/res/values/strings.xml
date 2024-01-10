@@ -36,4 +36,5 @@
     <string name="nohp">Masukkan nomor telpon anda</string>
     <string name="isidatadiri">Isi data diri anda</string>
     <string name="entry_person">Masukkan data diri</string>
+    <string name="data_diri">Data Diri</string>
 </resources>

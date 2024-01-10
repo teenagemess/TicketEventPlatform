@@ -5,6 +5,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.konsercb.database.Person
 import com.example.konsercb.repositori.RepositoriPerson
+import java.sql.Timestamp
 
 class EntryPersonViewModel(private val repositoriPerson: RepositoriPerson): ViewModel(){
     /*
@@ -43,6 +44,7 @@ data class DetailPerson(
     val emailperson: String = "",
     val identitas: String = "",
     val nohp: String = "",
+    val timestamp: Long = System.currentTimeMillis()
 )
 
 /* Fungsi untuk mengkonversi data input ke data dalam tabel sesuai jenis datanya */
@@ -64,5 +66,5 @@ fun Person.toDetailPerson(): DetailPerson = DetailPerson(
     namaperson = namaperson,
     emailperson = emailperson,
     identitas = identitas,
-    nohp = nohp
+    nohp = nohp,
 )

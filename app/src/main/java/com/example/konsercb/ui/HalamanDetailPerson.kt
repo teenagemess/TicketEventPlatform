@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.konsercb.R
@@ -19,6 +20,7 @@ import com.example.konsercb.database.Person
 import com.example.konsercb.model.PenyediaViewModel
 import com.example.konsercb.navigasi.DestinasiNavigasi
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.konsercb.database.OrderUIState
 import com.example.konsercb.model.HomeViewModel
 import com.example.konsercb.navigasi.EventTopAppBar
 
@@ -27,66 +29,39 @@ object DestinasiDataPerson : DestinasiNavigasi {
     override val titleRes = R.string.titleapp
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DataPersonScreen(
-    navigateToItemEntry: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory),
-    onDetailClick: (Int) -> Unit = {},
-) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
-    Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            EventTopAppBar(
-                title = stringResource(DestinasiHome.titleRes),
-                canNavigateBack = false,
-                scrollBehavior = scrollBehavior
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToItemEntry,
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(id = R.string.entry_person)
-                )
-            }
-        }
-    ) { innerpadding ->
-        val uiStatePerson by viewModel.personUiState.collectAsState()
-        BodyDataPerson(
-            itemPerson = uiStatePerson.listPerson,
-            modifier = Modifier
-                .padding(innerpadding)
-                .fillMaxSize(),
-            onPersonClick = onDetailClick,
-        )
-    }
-}
-
-@Composable
-fun BodyDataPerson(
-    itemPerson: List<Person>,
-    modifier: Modifier = Modifier,
-    onPersonClick: (Int) -> Unit = {}
-) {
+fun HalamanDua(
+    orderUIState: OrderUIState,
+    modifier: Modifier = Modifier
+){
+    val items = listOf(
+        Pair("Nama Pelanggan", orderUIState.namaperson),
+        Pair("Nomor Telepon", orderUIState.nohp),
+        Pair("Alamat", orderUIState.emailperson),
+        Pair("Jumlah", orderUIState.identitas.toString()),
+    )
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        if (itemPerson.isEmpty()) {
-            Text(
-                text = stringResource(id = R.string.deskripsi_no_item),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge
-            )
-        } else {
+        modifier = Modifier,
+        verticalArrangement = Arrangement.SpaceBetween
+    ){
+        Column(
+            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+        ){
+            items.forEach { item ->
+                Column {
+                    Text(item.first.uppercase())
+                    Text(text = item.second.toString(), fontWeight = FontWeight.Bold)
+                }
+                Divider(thickness = dimensionResource(R.dimen.padding_small))
+            }
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_small)))
+        }
+        Row(
+            modifier = Modifier
+                .weight(1f, false)
+                .padding(dimensionResource(R.dimen.padding_small))
+        ) {
         }
     }
 }

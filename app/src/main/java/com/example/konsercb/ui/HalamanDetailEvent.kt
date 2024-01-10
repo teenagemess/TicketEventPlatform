@@ -84,7 +84,7 @@ fun DetailsScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
-    Column {
+    Column() {
         Scaffold(
             topBar = {
                 EventTopAppBar(
