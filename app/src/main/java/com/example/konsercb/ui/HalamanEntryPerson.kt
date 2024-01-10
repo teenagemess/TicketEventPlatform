@@ -1,5 +1,9 @@
-package com.example.konsercb.ui
+package com.example.roomsiswa.ui
 
+import DestinasiDataPerson
+import DetailPerson
+import EntryPersonViewModel
+import UIStatePerson
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,13 +25,12 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.konsercb.R
-import com.example.konsercb.model.DetailPerson
-import com.example.konsercb.model.EntryPersonViewModel
 import com.example.konsercb.model.PenyediaViewModel
-import com.example.konsercb.model.UIStatePerson
 import com.example.konsercb.navigasi.DestinasiNavigasi
 import com.example.konsercb.navigasi.EventTopAppBar
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 object DestinasiEntryPerson : DestinasiNavigasi {
@@ -40,6 +43,7 @@ object DestinasiEntryPerson : DestinasiNavigasi {
 fun EntryPersonScreen(
     navigateBack: () -> Unit,
     modifier: Modifier = Modifier,
+    navController: NavController,
     viewModel: EntryPersonViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -58,10 +62,12 @@ fun EntryPersonScreen(
         EntryPersonBody(
             uiStatePerson = viewModel.uiStatePerson,
             onPersonValueChange = viewModel::updateUiState,
-            onSaveClick = {
+            onDataSaveClick = {
                 coroutineScope.launch {
-                    viewModel.savePerson()
-                    navigateBack()
+                    with(MainScope()) {
+                        viewModel.savePerson()
+                        navController.navigate(DestinasiDataPerson.route)
+                    }
                 }
             },
             modifier = Modifier
@@ -76,7 +82,7 @@ fun EntryPersonScreen(
 fun EntryPersonBody(
     uiStatePerson: UIStatePerson,
     onPersonValueChange: (DetailPerson) -> Unit,
-    onSaveClick: () -> Unit,
+    onDataSaveClick: () -> Unit = {},
     modifier: Modifier
 ) {
     Column(
@@ -89,7 +95,7 @@ fun EntryPersonBody(
             modifier = Modifier.fillMaxWidth()
         )
         Button(
-            onClick = onSaveClick,
+            onClick = onDataSaveClick,
             enabled = uiStatePerson.isEntryValid,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
@@ -125,9 +131,9 @@ fun FormInputPerson(
             enabled = enabled,
             singleLine = true
         )
-        OutlinedTextField(value = detailPerson.nohp,
-            onValueChange = {onValueChange(detailPerson.copy(nohp = it))},
-            label = { Text(stringResource(id = R.string.nohp))},
+        OutlinedTextField(value = detailPerson.identitas,
+            onValueChange = {onValueChange(detailPerson.copy(identitas = it))},
+            label = { Text(stringResource(id = R.string.identitas))},
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true

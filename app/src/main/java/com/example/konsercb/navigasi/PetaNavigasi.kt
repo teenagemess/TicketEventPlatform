@@ -1,6 +1,7 @@
 package com.example.konsercb.navigasi
 
 
+import DataPersonScreen
 import HomeScreen
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -34,8 +35,8 @@ import com.example.konsercb.ui.EntryEventScreen
 import com.example.konsercb.ui.ItemEditDestination
 import com.example.konsercb.ui.ItemEditScreen
 import com.example.konsercb.R
-import com.example.konsercb.ui.DestinasiEntryPerson
-import com.example.konsercb.ui.EntryPersonScreen
+import com.example.roomsiswa.ui.DestinasiEntryPerson
+import com.example.roomsiswa.ui.EntryPersonScreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -118,8 +119,11 @@ fun HostNavigasi(
                 onNavigateUp = { navController.navigateUp() })
         }
         composable(DestinasiEntryPerson.route) {
-            EntryPersonScreen(navigateBack = { navController.popBackStack() })
+            EntryPersonScreen(navigateBack = { navController.popBackStack() }, navController = navController)
 
+        }
+        composable(DestinasiDataPerson.route){
+            DataPersonScreen(navigateToItemEntry = { /*TODO*/ })
         }
     }
 }

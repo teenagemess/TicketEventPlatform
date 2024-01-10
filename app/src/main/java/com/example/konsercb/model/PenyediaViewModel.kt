@@ -1,6 +1,7 @@
 package com.example.konsercb.model
 
 
+import EntryPersonViewModel
 import android.text.Spannable.Factory
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle

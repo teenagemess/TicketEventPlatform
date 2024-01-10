@@ -1,4 +1,3 @@
-package com.example.konsercb.model
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
