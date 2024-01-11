@@ -78,6 +78,7 @@ object DetailsDestination : DestinasiNavigasi {
 fun DetailsScreen(
     navigateBack: () -> Unit,
     navigateToPerson: () -> Unit = {},
+    navigateToPersonDT: () -> Unit = {},
     navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: DetailEventViewModel = viewModel(factory = PenyediaViewModel.Factory)
@@ -196,6 +197,7 @@ private fun ItemDetailsBody(
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }
+
         Spacer(modifier = Modifier.height(50.dp))
     }
 }

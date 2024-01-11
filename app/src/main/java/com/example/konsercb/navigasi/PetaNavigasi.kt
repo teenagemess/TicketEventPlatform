@@ -21,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -42,15 +43,14 @@ import com.example.konsercb.database.Event
 import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.OrderViewModel
 import com.example.konsercb.model.PenyediaViewModel
-import com.example.konsercb.ui.DetailsDestination2
-import com.example.konsercb.ui.DetailsScreen2
+import com.example.multiplepage.data.SumberData
 import com.example.roomsiswa.ui.DestinasiEntryPerson
 import com.example.roomsiswa.ui.HalamanPelanggan
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EventApp(navController: NavHostController = rememberNavController()) {
-    HostNavigasi(navController = navController, )
+fun EventApp(navController: NavHostController = rememberNavController(), ) {
+    HostNavigasi(navController = navController )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -86,10 +86,9 @@ fun HostNavigasi(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
-
 ) {
+    val uiState by viewModel.stateUI.collectAsState()
 
-    val StateUi by viewModel.stateUI.collectAsState()
     NavHost(
         navController = navController,
         startDestination = DestinasiHome.route,
@@ -120,18 +119,7 @@ fun HostNavigasi(
                 navController = navController
             )
         }
-        composable(
-            DetailsDestination2.routeWithArgs,
-            arguments = listOf(navArgument(DetailsDestination2.eventIdArg) {
-                type = NavType.IntType
-            })
-        ) {
-            DetailsScreen2(
-                navigateBack = { navController.popBackStack() },
-                navigateToPerson = { navController.navigate(DestinasiEntryPerson.route)},
-                navController = navController
-            )
-        }
+
 
         composable(
             ItemEditDestination.routeWithArgs,
@@ -144,15 +132,22 @@ fun HostNavigasi(
                 onNavigateUp = { navController.navigateUp() })
         }
         composable(DestinasiEntryPerson.route) {
+            val context = LocalContext.current
             HalamanPelanggan(onSubmitButtonClicked = { namaperson, nohp, emailperson, identitas ->
                 viewModel.setContact(namaperson, nohp, emailperson, identitas)
-                navController.navigate(DetailsDestination2.route)
+                navController.navigate(DestinasiDataPerson.route)
             },
                 onCancelButtonClicked = {
                     navController.navigateUp()
                 },
-                navigateBack = { navController.popBackStack() }
+                navigateBack = { navController.popBackStack() },
+                onSelectionChanged = { viewModel.setRasa(it) },
+                pilihanRasa = SumberData.flavors.map { id -> context.resources.getString(id) },
+                onConfirmButtonClicked = { viewModel.setJumlah(it) }
             )
+        }
+        composable(DestinasiDataPerson.route){
+            HalamanDua(orderUIState = uiState)
         }
     }
 }

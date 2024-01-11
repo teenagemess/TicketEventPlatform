@@ -63,7 +63,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.konsercb.ui.DetailsDestination
-import com.example.konsercb.ui.DetailsDestination2
 
 
 object DestinasiHome : DestinasiNavigasi {

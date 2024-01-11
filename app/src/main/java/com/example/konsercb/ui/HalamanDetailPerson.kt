@@ -42,8 +42,11 @@ fun HalamanDua(
         Pair("Nomor Telepon", orderUIState.nohp),
         Pair("Email", orderUIState.emailperson),
         Pair("No KTP", orderUIState.identitas),
+        Pair("Jumlah", orderUIState.jumlah.toString()),
+        Pair("Rasa", orderUIState.rasa),
+        Pair("Harga", orderUIState.harga)
     )
-    
+
     Column(
         modifier = Modifier,
         verticalArrangement = Arrangement.SpaceBetween
@@ -59,6 +62,10 @@ fun HalamanDua(
                 }
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_small)))
+            FormatLabelHarga(
+                subtotal = orderUIState.harga,
+                modifier = Modifier.align(Alignment.End)
+            )
         }
         Row(
             modifier = Modifier
@@ -67,4 +74,13 @@ fun HalamanDua(
         ) {
         }
     }
+}
+
+@Composable
+fun FormatLabelHarga(subtotal: String, modifier: Modifier = Modifier){
+    Text(
+        text = stringResource(R.string.subtotal_price, subtotal),
+        modifier = modifier,
+        style = MaterialTheme.typography.headlineSmall
+    )
 }

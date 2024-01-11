@@ -37,4 +37,12 @@
     <string name="isidatadiri">Isi data diri anda</string>
     <string name="entry_person">Masukkan data diri</string>
     <string name="data_diri">Data Diri</string>
+    <string name="vanilla">The Death Of Peace Of Mind</string>
+    <string name="lemon">POST HUMAN: SURVIVAL HORROR</string>
+    <string name="natural">Finding God Before God Finds Me</string>
+    <string name="milk">HORRORWOOD</string>
+    <string name="lyche">The Silver Scream</string>
+    <string name="subtotal_price">Subtotal : Rp %s</string>
+    <string name="total_price">Total %s</string>
+    <string name="confirm">Konfirmasi</string>
 </resources>
