@@ -68,10 +68,3 @@ fun HalamanDua(
         }
     }
 }
-
-@Composable
-fun PanggilTicket(
-    event: Event
-){
-    Text(text = event.namaevent)
-}

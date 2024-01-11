@@ -71,7 +71,7 @@ fun HalamanPelanggan(
     var emailperson by remember { mutableStateOf("") }
     var identitas by remember { mutableStateOf("") }
 
-    val event = painterResource(R.drawable.ic_event)
+    val event = painterResource(R.drawable.person)
 
     Scaffold(topBar = {
         EventTopAppBar(
@@ -86,7 +86,7 @@ fun HalamanPelanggan(
                 Row (verticalAlignment = Alignment.CenterVertically) {
                     Image(painter = event, contentDescription = "")
                     Spacer(modifier = Modifier.width(15.dp))
-                    Text(text = "Data Event", fontSize = 21.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                    Text(text = "Data Diri", fontSize = 21.sp, fontWeight = FontWeight.Bold, color = Color.Black)
                 }
                 Spacer(modifier = Modifier.height(0.dp))
                 Divider(color = Color.LightGray)
@@ -184,12 +184,14 @@ fun HalamanPelanggan(
                 ) {
                     OutlinedButton(
                         modifier = Modifier.weight(1f),
+                        shape = MaterialTheme.shapes.small,
                         onClick = onCancelButtonClicked
                     ) {
                         Text(text = "Cancel")
                     }
                     Button(
                         modifier = Modifier.weight(1f),
+                        shape = MaterialTheme.shapes.small,
                         onClick = {
                             if (namaperson.isNotEmpty() && nohp.isNotEmpty() && emailperson.isNotEmpty() && identitas.isNotEmpty()) {
                                 onSubmitButtonClicked(namaperson, nohp, emailperson, identitas)

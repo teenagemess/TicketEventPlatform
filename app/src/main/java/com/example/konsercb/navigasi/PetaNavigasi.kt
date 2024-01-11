@@ -42,6 +42,8 @@ import com.example.konsercb.database.Event
 import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.OrderViewModel
 import com.example.konsercb.model.PenyediaViewModel
+import com.example.konsercb.ui.DetailsDestination2
+import com.example.konsercb.ui.DetailsScreen2
 import com.example.roomsiswa.ui.DestinasiEntryPerson
 import com.example.roomsiswa.ui.HalamanPelanggan
 
@@ -118,6 +120,18 @@ fun HostNavigasi(
                 navController = navController
             )
         }
+        composable(
+            DetailsDestination2.routeWithArgs,
+            arguments = listOf(navArgument(DetailsDestination2.eventIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            DetailsScreen2(
+                navigateBack = { navController.popBackStack() },
+                navigateToPerson = { navController.navigate(DestinasiEntryPerson.route)},
+                navController = navController
+            )
+        }
 
         composable(
             ItemEditDestination.routeWithArgs,
@@ -132,17 +146,13 @@ fun HostNavigasi(
         composable(DestinasiEntryPerson.route) {
             HalamanPelanggan(onSubmitButtonClicked = { namaperson, nohp, emailperson, identitas ->
                 viewModel.setContact(namaperson, nohp, emailperson, identitas)
-                navController.navigate(DestinasiDataPerson.route)
+                navController.navigate(DetailsDestination2.route)
             },
                 onCancelButtonClicked = {
                     navController.navigateUp()
                 },
                 navigateBack = { navController.popBackStack() }
             )
-        }
-        composable(DestinasiDataPerson.route) {
-            HalamanDua(
-                orderUIState = StateUi)
         }
     }
 }
