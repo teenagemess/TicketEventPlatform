@@ -1,6 +1,8 @@
 package com.example.konsercb.navigasi
 
 import DestinasiDataPerson
+import DestinasiHome
+import DestinasiHomeAdmin
 import HalamanDua
 import HomeScreen
 import android.os.Build
@@ -40,6 +42,9 @@ import com.example.konsercb.ui.ItemEditDestination
 import com.example.konsercb.ui.ItemEditScreen
 import com.example.konsercb.R
 import com.example.konsercb.database.Event
+import com.example.konsercb.login.AuthViewModel
+import com.example.konsercb.login.DestinasiLogin
+import com.example.konsercb.login.HalamanLogin
 import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.OrderViewModel
 import com.example.konsercb.model.PenyediaViewModel
@@ -86,18 +91,31 @@ fun HostNavigasi(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     viewModel: OrderViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    authViewModel: AuthViewModel = viewModel()
 ) {
     val uiState by viewModel.stateUI.collectAsState()
 
     NavHost(
         navController = navController,
-        startDestination = DestinasiHome.route,
+        startDestination = DestinasiLogin.route,
         modifier = Modifier
     )
     {
+        composable(DestinasiLogin.route){
+            HalamanLogin(
+                onCancelButtonClicked = {navController.navigate(DestinasiHome.route)},
+                onLoginButtonClicked = { username, password ->
+                    if (authViewModel.authenticate(username, password)) {
+                        navController.navigate(DestinasiHomeAdmin.route)
+                    } else {
+
+                    }
+                }
+            )}
+
         composable(DestinasiHome.route) {
             HomeScreen(
-                navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
+                navigateToItemEntry = { navController.navigate(DestinasiLogin.route) },
                 navController = navController,  // Pass the NavController to HomeScreen
                 onDetailClick = { eventId ->
                     navController.navigate("${DetailsDestination.route}/$eventId")

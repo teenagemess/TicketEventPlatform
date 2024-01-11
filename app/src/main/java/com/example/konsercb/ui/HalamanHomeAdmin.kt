@@ -65,14 +65,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.konsercb.ui.DetailsDestination
 
 
-object DestinasiHome : DestinasiNavigasi {
+object DestinasiHomeAdmin : DestinasiNavigasi {
     override val route = "home"
     override val titleRes = R.string.titleapp
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+fun HomeScreenAdmin(
     navigateToItemEntry: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory),
@@ -126,7 +126,7 @@ fun HomeScreen(
         }
     ) { innerpadding ->
         val uiStateEvent by viewModel.homeUiState.collectAsState()
-        BodyHome(
+        BodyHomeAdmin(
             itemEvent = uiStateEvent.listEvent,
             modifier = Modifier
                 .padding(innerpadding)
@@ -137,7 +137,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun BodyHome(
+fun BodyHomeAdmin(
     itemEvent: List<Event>,
     modifier: Modifier = Modifier,
     navController: NavHostController,
@@ -149,7 +149,7 @@ fun BodyHome(
     ) {
 
         item {
-            ImageCarouselAdmin(
+            ImageCarousel(
                 images = listOf(
                     R.drawable.image1,
                     R.drawable.image2,
@@ -181,7 +181,7 @@ fun BodyHome(
             }
         } else {
             items(itemEvent) { event ->
-                DataEvent(
+                DataEventAdmin(
                     navController = navController,
                     event = event,
                     modifier = Modifier
@@ -195,7 +195,7 @@ fun BodyHome(
 
 
 @Composable
-fun DataEvent(
+fun DataEventAdmin(
     event: Event,
     modifier: Modifier = Modifier,
     navController: NavHostController,
@@ -224,7 +224,7 @@ fun DataEvent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(130.dp)
-                    )
+                )
             }
             Row(
                 horizontalArrangement = Arrangement.Center,
@@ -316,7 +316,7 @@ fun DataEvent(
 }
 
 @Composable
-fun ImageCarouselAdmin(images: List<Int>, modifier: Modifier = Modifier) {
+fun ImageCarousel(images: List<Int>, modifier: Modifier = Modifier) {
     LazyRow(
         modifier = modifier
             .background(Color.White)
