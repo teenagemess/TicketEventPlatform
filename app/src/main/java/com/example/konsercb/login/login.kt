@@ -84,6 +84,7 @@ fun HalamanLogin(
             Spacer(modifier = Modifier.height(50.dp))
             Text(text = "Email", fontSize = 18.sp)
             OutlinedTextField(
+                singleLine = true,
                 shape = MaterialTheme.shapes.medium,
                 value = username,
                 onValueChange = { username = it },
@@ -94,6 +95,7 @@ fun HalamanLogin(
             )
             Text(text = "Password", fontSize = 18.sp)
             OutlinedTextField(
+                singleLine = true,
                 shape = MaterialTheme.shapes.medium,
                 value = password,
                 onValueChange = { password = it },

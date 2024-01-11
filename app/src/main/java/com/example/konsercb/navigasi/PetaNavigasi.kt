@@ -5,6 +5,7 @@ import DestinasiHome
 import DestinasiHomeAdmin
 import HalamanDua
 import HomeScreen
+import HomeScreenAdmin
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -48,6 +49,8 @@ import com.example.konsercb.login.HalamanLogin
 import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.OrderViewModel
 import com.example.konsercb.model.PenyediaViewModel
+import com.example.konsercb.ui.DetailsDestinationAdmin
+import com.example.konsercb.ui.DetailsScreenAdmin
 import com.example.multiplepage.data.SumberData
 import com.example.roomsiswa.ui.DestinasiEntryPerson
 import com.example.roomsiswa.ui.HalamanPelanggan
@@ -97,7 +100,7 @@ fun HostNavigasi(
 
     NavHost(
         navController = navController,
-        startDestination = DestinasiLogin.route,
+        startDestination = DestinasiHome.route,
         modifier = Modifier
     )
     {
@@ -120,6 +123,27 @@ fun HostNavigasi(
                 onDetailClick = { eventId ->
                     navController.navigate("${DetailsDestination.route}/$eventId")
                 }
+            )
+        }
+        composable(DestinasiHomeAdmin.route) {
+            HomeScreenAdmin(
+                navigateToEntry = {navController.navigate(DestinasiEntry.route)},
+                navigateToLogout = { navController.navigate(DestinasiHome.route) },
+                navController = navController,  // Pass the NavController to HomeScreen
+                onDetailAdminClick = { eventId ->
+                    navController.navigate("${DetailsDestinationAdmin.route}/$eventId")
+                }
+            )
+        }
+        composable(
+            DetailsDestinationAdmin.routeWithArgs,
+            arguments = listOf(navArgument(DetailsDestinationAdmin.eventIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            DetailsScreenAdmin(
+                navigateBack = { navController.popBackStack() },
+                navController = navController
             )
         }
         composable(DestinasiEntry.route) {

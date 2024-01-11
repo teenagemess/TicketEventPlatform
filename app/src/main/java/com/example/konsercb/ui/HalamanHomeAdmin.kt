@@ -63,20 +63,22 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.konsercb.ui.DetailsDestination
+import com.example.konsercb.ui.DetailsDestinationAdmin
 
 
 object DestinasiHomeAdmin : DestinasiNavigasi {
-    override val route = "home"
+    override val route = "admin"
     override val titleRes = R.string.titleapp
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenAdmin(
-    navigateToItemEntry: () -> Unit,
+    navigateToLogout: () -> Unit,
+    navigateToEntry: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory),
-    onDetailClick: (Int) -> Unit = {},
+    onDetailAdminClick: (Int) -> Unit = {},
     navController: NavHostController,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -110,13 +112,13 @@ fun HomeScreenAdmin(
 
                         OutlinedButton(
                             shape = MaterialTheme.shapes.medium,
-                            onClick = navigateToItemEntry,
+                            onClick = navigateToLogout,
                             border = BorderStroke(1.dp, Color.White),
                             modifier = Modifier
                                 .width(138.dp)
                                 .height(45.dp)
                         ) {
-                            Text(text = "Tambah Event", color = Color.White)
+                            Text(text = "Log Out", color = Color.White)
                         }
                     }
 
@@ -133,6 +135,36 @@ fun HomeScreenAdmin(
                 .fillMaxSize(),
             navController = navController,
         )
+    }
+
+    Row(
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .padding(bottom = 0.dp)
+            .fillMaxWidth()
+    ) {
+
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .height(80.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Button(
+                onClick = navigateToEntry,
+                colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
+                shape = MaterialTheme.shapes.small,
+                modifier = Modifier
+                    .height(48.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                Text("Tambah Event")
+            }
+        }
     }
 }
 
@@ -304,7 +336,7 @@ fun DataEventAdmin(
                         .height(50.dp)
                         .width(100.dp),
                     onClick = {
-                        navController.navigate("${DetailsDestination.route}/${event.id}")
+                        navController.navigate("${DetailsDestinationAdmin.route}/${event.id}")
                     },
                     colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95")))
                 ) {
