@@ -7,6 +7,7 @@ import HalamanDua
 import HomeScreen
 import HomeScreenAdmin
 import android.os.Build
+import android.window.SplashScreen
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
@@ -49,6 +50,9 @@ import com.example.konsercb.login.HalamanLogin
 import com.example.konsercb.model.DetailEventViewModel
 import com.example.konsercb.model.OrderViewModel
 import com.example.konsercb.model.PenyediaViewModel
+import com.example.konsercb.splashscreen.SplashActivity
+import com.example.konsercb.splashscreen.SplashS
+import com.example.konsercb.splashscreen.SplashScreenDah
 import com.example.konsercb.ui.DetailsDestinationAdmin
 import com.example.konsercb.ui.DetailsScreenAdmin
 import com.example.multiplepage.data.SumberData
@@ -100,10 +104,11 @@ fun HostNavigasi(
 
     NavHost(
         navController = navController,
-        startDestination = DestinasiHome.route,
+        startDestination = SplashS.route,
         modifier = Modifier
     )
     {
+        composable(SplashS.route){ SplashScreenDah(navController)}
         composable(DestinasiLogin.route){
             HalamanLogin(
                 onCancelButtonClicked = {navController.navigate(DestinasiHome.route)},

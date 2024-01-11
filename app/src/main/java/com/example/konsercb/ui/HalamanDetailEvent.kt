@@ -165,27 +165,6 @@ private fun ItemDetailsBody(
             modifier = Modifier.fillMaxWidth()
         )
 
-        OutlinedButton(
-            onClick = { deleteConfirmationRequired = true },
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                stringResource(id = R.string.delete),
-                color = Color(android.graphics.Color.parseColor("#1f1f95"))
-            )
-        }
-        Button(
-            onClick = {
-                // Navigate to the Edit screen when the button is clicked
-                navController.navigate("${ItemEditDestination.route}/${itemDetailsUiState.detailEvent.id}")
-            },
-            colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
-            shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Edit Event",)
-        }
         if (deleteConfirmationRequired) {
             DeleteConfirmationDialog(
                 onDeleteConfirm = {
@@ -455,18 +434,6 @@ fun ItemDetails(
                 "-  Apabila Ticket di redeem diluar jam yang sudah dipesan, crew dari wahana berhak untuk mengarahkan pembeli menyesuaikan dengan kondisi saat itu (akan diutamakan yang memesan ticket pada jam yang sesuai terlebih dahulu)\n",
         fontSize = 16.sp
     )
-}
-
-
-@Composable
-private fun ItemDetailsRow(
-    @StringRes labelResID: Int, itemDetail: String, modifier: Modifier = Modifier
-) {
-    Row(modifier = modifier) {
-        Text(text = stringResource(labelResID))
-        Spacer(modifier = Modifier.weight(1f))
-        Text(text = itemDetail, fontWeight = FontWeight.Bold)
-    }
 }
 
 @Composable
