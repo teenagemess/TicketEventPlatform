@@ -43,6 +43,7 @@ import androidx.compose.material.ButtonColors
 import androidx.compose.material.SnackbarDefaults
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
@@ -175,6 +176,14 @@ fun BodyHomeAdmin(
     navController: NavHostController,
 
     ) {
+    var searchQueryAdmin by remember { mutableStateOf("") }
+    val filteredEvents = itemEvent.filter {
+
+        it.namaevent.contains(searchQueryAdmin, ignoreCase = true) ||
+                it.alamatevent.contains(searchQueryAdmin, ignoreCase = true) ||
+                it.tanggalevent.contains(searchQueryAdmin, ignoreCase = true) ||
+                it.waktuevent.contains(searchQueryAdmin, ignoreCase = true)
+    }
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -194,6 +203,26 @@ fun BodyHomeAdmin(
                     .height(200.dp)
             )
 
+            OutlinedTextField(
+                leadingIcon = {
+                    // Tambahkan ikon di sini
+                    Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                },
+                shape = MaterialTheme.shapes.large,
+                singleLine = true,
+                value = searchQueryAdmin,
+                onValueChange = { newQuery ->
+                    searchQueryAdmin = newQuery
+                },
+                placeholder = {
+                    Text(text = "Search Event")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(53.dp)
+                    .padding(horizontal = 15.dp)
+            )
+
             Text(
                 text = "Rekomendasi Event",
                 fontSize = 25.sp,
@@ -203,7 +232,7 @@ fun BodyHomeAdmin(
             )
         }
 
-        if (itemEvent.isEmpty()) {
+        if (filteredEvents.isEmpty()) {
             item {
                 Text(
                     text = stringResource(id = R.string.deskripsi_no_item),
@@ -212,8 +241,8 @@ fun BodyHomeAdmin(
                 )
             }
         } else {
-            items(itemEvent) { event ->
-                DataEventAdmin(
+            items(filteredEvents) { event ->
+                DataEvent(
                     navController = navController,
                     event = event,
                     modifier = Modifier

@@ -18,6 +18,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -218,66 +219,60 @@ fun HalamanPelanggan(
                                 Text(item)
                             }
                         }
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                //Jumlah Order
-                                OutlinedTextField(
-                                    value = textJmlBeli,
-                                    onValueChange = {
-                                        textJmlBeli = it
-                                    },
-                                    singleLine = true,
-                                    shape = MaterialTheme.shapes.large,
-                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                                    modifier = Modifier.width(150.dp),
-                                    label = { Text(text = "Jumlah Order") }
-                                )
-                                //Jumlah Order End
-                                Spacer(modifier = Modifier.width(20.dp))
-                                //ConfirmButton
-                                Button(
-                                    modifier = Modifier
-                                        .height(55.dp)
-                                        .weight(1f),
-                                    enabled = textJmlBeli.isNotEmpty(),
-                                    shape = MaterialTheme.shapes.large,
-                                    onClick = { onConfirmButtonClicked(textJmlBeli.toInt()) })
-                                {
-                                    Text(stringResource(R.string.confirm))
-                                }
-                                //ConfirmButtonEnd
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            //Jumlah Order
+                            OutlinedTextField(
+                                value = textJmlBeli,
+                                onValueChange = {
+                                    textJmlBeli = it
+                                },
+                                singleLine = true,
+                                shape = MaterialTheme.shapes.large,
+                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                modifier = Modifier.width(150.dp),
+                                label = { Text(text = "Jumlah Order") }
+                            )
+                            //Jumlah Order End
+                            Spacer(modifier = Modifier.width(20.dp))
+                            //ConfirmButton
+                            Button(
+                                modifier = Modifier
+                                    .height(55.dp)
+                                    .weight(1f),
+                                enabled = textJmlBeli.isNotEmpty(),
+                                colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
+                                shape = MaterialTheme.shapes.large,
+                                onClick = { onConfirmButtonClicked(textJmlBeli.toInt()) })
+                            {
+                                Text(stringResource(R.string.confirm), color = Color.White)
                             }
-                            Row(
+                            //ConfirmButtonEnd
+                        }
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Button(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(16.dp),
-                                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                OutlinedButton(
-                                    modifier = Modifier.weight(1f),
-                                    shape = MaterialTheme.shapes.small,
-                                    onClick = onCancelButtonClicked
-                                ) {
-                                    Text(text = "Cancel")
-                                }
-                                Button(
-                                    modifier = Modifier.weight(1f),
-                                    shape = MaterialTheme.shapes.small,
-                                    onClick = {
-                                        if (namaperson.isNotEmpty() && nohp.isNotEmpty() && emailperson.isNotEmpty() && identitas.isNotEmpty()) {
-                                            onSubmitButtonClicked(
-                                                namaperson,
-                                                nohp,
-                                                emailperson,
-                                                identitas
-                                            )
-                                        }
+                                    .height(50.dp),
+                                colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
+                                shape = MaterialTheme.shapes.small,
+                                onClick = {
+                                    if (namaperson.isNotEmpty() && nohp.isNotEmpty() && emailperson.isNotEmpty() && identitas.isNotEmpty()) {
+                                        onSubmitButtonClicked(
+                                            namaperson,
+                                            nohp,
+                                            emailperson,
+                                            identitas
+                                        )
                                     }
-                                ) {
-                                    Text(text = "Next")
                                 }
+                            ) {
+                                Text(text = "Next")
                             }
-
+                        }
                     }
                 }
             }

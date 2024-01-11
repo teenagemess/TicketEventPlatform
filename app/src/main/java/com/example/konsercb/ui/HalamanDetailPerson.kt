@@ -1,31 +1,25 @@
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Phone
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.konsercb.R
-import com.example.konsercb.database.Person
-import com.example.konsercb.model.PenyediaViewModel
 import com.example.konsercb.navigasi.DestinasiNavigasi
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.konsercb.database.Event
 import com.example.konsercb.database.OrderUIState
-import com.example.konsercb.model.HomeViewModel
-import com.example.konsercb.model.ItemDetailsUiState
-import com.example.konsercb.model.toEvent
-import com.example.konsercb.navigasi.EventTopAppBar
+
 
 object DestinasiDataPerson : DestinasiNavigasi {
     override val route = "data"
@@ -36,51 +30,126 @@ object DestinasiDataPerson : DestinasiNavigasi {
 fun HalamanDua(
     orderUIState: OrderUIState,
     modifier: Modifier = Modifier,
-){
+    navigateToHome: () -> Unit,
+) {
     val items = listOf(
-        Pair("Nama Pelanggan", orderUIState.namaperson),
-        Pair("Nomor Telepon", orderUIState.nohp),
-        Pair("Email", orderUIState.emailperson),
-        Pair("No KTP", orderUIState.identitas),
-        Pair("Jumlah", orderUIState.jumlah.toString()),
-        Pair("Rasa", orderUIState.rasa),
-        Pair("Harga", orderUIState.harga)
+        Pair("Nama: ", orderUIState.namaperson),
+        Pair("Nomor Telepon: ", orderUIState.nohp),
+        Pair("Email: ", orderUIState.emailperson),
+        Pair("No. KTP: ", orderUIState.identitas),
+        Pair("Jumlah: ", orderUIState.jumlah.toString()),
+        Pair("Ticket: ", orderUIState.rasa),
+        Pair("Harga: ", orderUIState.harga)
     )
 
-    Column(
-        modifier = Modifier,
-        verticalArrangement = Arrangement.SpaceBetween
-    ){
-        Column(
-            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
-        ){
-            items.forEach { item ->
-                Column {
-                    Text(item.first.uppercase())
-                    Text(text = item.second, fontWeight = FontWeight.Bold)
+    val gambar = painterResource(id = R.drawable.gambartiket)
+    val qr = painterResource(id = R.drawable.qrcode)
+
+    Scaffold {innerPadding ->
+        Column(modifier.padding(innerPadding)) {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .background(MaterialTheme.colorScheme.background)
+            ) {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.LightGray),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.6f)
+                        .clip(RoundedCornerShape(16.dp))
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Image(
+                            painter = gambar,
+                            contentDescription = "",
+                            modifier = Modifier
+                                .height(120.dp)
+                                .fillMaxWidth()
+                                .clip(shape = RoundedCornerShape(16.dp)),
+                            contentScale = ContentScale.Crop
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
+                        items.forEach { item ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(item.first, fontWeight = FontWeight.Bold, color = Color.Gray, fontSize = 17.sp)
+                                Text(text = item.second, color = Color.Black, fontSize = 18.sp)
+                            }
+                        }
+                    }
+                }
+                Column(
+                    modifier
+                        .padding(end = 30.dp)
+                        .fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.End) {
+                    Image(painter = qr, contentDescription = "")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    FormatLabelHarga(
+                        subtotal = orderUIState.harga,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .background(MaterialTheme.colorScheme.primary)
+                            .padding(8.dp)
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(bottom = 0.dp)
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                ) {
+
+                    Column(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .height(80.dp)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            onClick = navigateToHome,
+                            colors = ButtonDefaults.buttonColors(Color(android.graphics.Color.parseColor("#1f1f95"))),
+                            shape = MaterialTheme.shapes.small,
+                            modifier = Modifier
+                                .height(48.dp)
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp)
+                        ) {
+                            Text("Send E-Ticket To Email")
+                        }
+                    }
                 }
             }
-            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_small)))
-            FormatLabelHarga(
-                subtotal = orderUIState.harga,
-                modifier = Modifier.align(Alignment.End)
-            )
-        }
-        Row(
-            modifier = Modifier
-                .weight(1f, false)
-                .padding(dimensionResource(R.dimen.padding_small))
-        ) {
         }
     }
+
 }
 
 @Composable
-fun FormatLabelHarga(subtotal: String, modifier: Modifier = Modifier){
+fun FormatLabelHarga(subtotal: String, modifier: Modifier = Modifier) {
     Text(
         text = stringResource(R.string.subtotal_price, subtotal),
         modifier = modifier,
-        style = MaterialTheme.typography.headlineSmall
+        color = Color.White
     )
 }

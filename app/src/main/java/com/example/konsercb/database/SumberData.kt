@@ -5,6 +5,6 @@ import com.example.konsercb.R
 
 object SumberData {
     val flavors = listOf(
-        R.string.natural
+        R.string.catA,
     )
 }

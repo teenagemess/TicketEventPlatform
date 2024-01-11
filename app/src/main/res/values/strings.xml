@@ -45,4 +45,7 @@
     <string name="subtotal_price">Subtotal : Rp %s</string>
     <string name="total_price">Total %s</string>
     <string name="confirm">Konfirmasi</string>
+    <string name="catA">Category A </string>
+    <string name="catB">Konfirmasi</string>
+    <string name="catC">Konfirmasi</string>
 </resources>

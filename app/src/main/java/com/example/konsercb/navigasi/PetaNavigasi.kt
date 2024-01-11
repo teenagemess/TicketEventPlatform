@@ -194,7 +194,7 @@ fun HostNavigasi(
             )
         }
         composable(DestinasiDataPerson.route){
-            HalamanDua(orderUIState = uiState)
+            HalamanDua(orderUIState = uiState, navigateToHome = {navController.navigate(DestinasiHome.route)})
         }
     }
 }
