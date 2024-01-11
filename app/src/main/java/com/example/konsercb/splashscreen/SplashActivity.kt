@@ -48,7 +48,7 @@ class SplashActivity : ComponentActivity() {
 fun SplashScreenDah(navController: NavController) {
     val logo = painterResource(id = R.drawable.logo)
     LaunchedEffect(key1 = true) {
-        delay(1000)
+        delay(2000)
         navController.navigate(DestinasiHome.route)
     }
     Box(

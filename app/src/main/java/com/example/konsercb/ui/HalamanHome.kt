@@ -43,6 +43,7 @@ import androidx.compose.material.ButtonColors
 import androidx.compose.material.SnackbarDefaults
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextField
@@ -143,6 +144,15 @@ fun BodyHome(
     navController: NavHostController,
 
     ) {
+    var searchQuery by remember { mutableStateOf("") }
+    val filteredEvents = itemEvent.filter {
+
+        it.namaevent.contains(searchQuery, ignoreCase = true) ||
+                it.alamatevent.contains(searchQuery, ignoreCase = true) ||
+                it.tanggalevent.contains(searchQuery, ignoreCase = true) ||
+                it.waktuevent.contains(searchQuery, ignoreCase = true)
+    }
+
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -161,6 +171,26 @@ fun BodyHome(
                     .fillMaxWidth()
                     .height(200.dp)
             )
+            OutlinedTextField(
+                leadingIcon = {
+                    // Tambahkan ikon di sini
+                    Icon(imageVector = Icons.Default.Search, contentDescription = null)
+                },
+                shape = MaterialTheme.shapes.large,
+                singleLine = true,
+                value = searchQuery,
+                onValueChange = { newQuery ->
+                    searchQuery = newQuery
+                },
+                placeholder = {
+                    Text(text = "Search Event")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(53.dp)
+                    .padding(horizontal = 15.dp)
+            )
+            Spacer(modifier = Modifier.height(25.dp))
 
             Text(
                 text = "Rekomendasi Event",
@@ -171,7 +201,7 @@ fun BodyHome(
             )
         }
 
-        if (itemEvent.isEmpty()) {
+        if (filteredEvents.isEmpty()) {
             item {
                 Text(
                     text = stringResource(id = R.string.deskripsi_no_item),
@@ -180,7 +210,7 @@ fun BodyHome(
                 )
             }
         } else {
-            items(itemEvent) { event ->
+            items(filteredEvents) { event ->
                 DataEvent(
                     navController = navController,
                     event = event,
